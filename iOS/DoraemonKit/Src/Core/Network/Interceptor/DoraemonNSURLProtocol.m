@@ -11,6 +11,8 @@
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonURLSessionDemux.h"
 #import "DoraemonNetworkInterceptor.h"
+#import "DoraemonMockManager.h"
+#import "DoraemonDefine.h"
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
@@ -62,13 +64,23 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     if (contentType && [contentType containsString:@"multipart/form-data"]) {
         return NO;
     }
+    
+//    if ([self ignoreRequest:request]) {
+//        return NO;
+//    }
+    
     return YES;
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request{
-    //NSLog(@"canonicalRequestForRequest");
     NSMutableURLRequest *mutableReqeust = [request mutableCopy];
     [NSURLProtocol setProperty:@YES forKey:kDoraemonProtocolKey inRequest:mutableReqeust];
+    if ([[DoraemonMockManager sharedInstance] needMock:request]) {
+        NSString *sceneId = [[DoraemonMockManager sharedInstance] getSceneId:request];
+        NSString *urlString = [NSString stringWithFormat:@"https://mock.dokit.cn/api/app/scene/%@",sceneId];
+        DoKitLog(@"MOCK URL == %@",urlString);
+        mutableReqeust = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    }
     return [mutableReqeust copy];
 }
 
@@ -117,6 +129,23 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     }
 }
 
+- (void)handleWeak:(NSData *)data{
+    NSUInteger count = 0;
+    NSData *limitData = nil;
+    while (true) {
+        limitData = [[DoraemonNetworkInterceptor shareInstance].weakDelegate doraemonNSURLProtocolWeak:data count:count];
+        if(limitData.length > 0){
+            [self.data appendData:limitData];
+            [self.client URLProtocol:self didLoadData:limitData];
+        }
+        if([[DoraemonNetworkInterceptor shareInstance].weakDelegate endWeak:limitData]){
+            return ;
+        }
+        count++;
+    }
+}
+
+
 #pragma mark - NSURLSessionDelegate
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     assert([NSThread currentThread] == self.clientThread);
@@ -127,6 +156,9 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     assert([NSThread currentThread] == self.clientThread);
+    if ([DoraemonNetworkInterceptor shareInstance].weakDelegate && [[DoraemonNetworkInterceptor shareInstance].weakDelegate shouldWeak]) {
+        [self handleWeak:data];
+    }
     [self.data appendData:data];
     [self.client URLProtocol:self didLoadData:data];
 }
@@ -149,6 +181,16 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
         completionHandler(NSURLSessionAuthChallengeUseCredential, card);
     }
+}
+
+// 去掉一些我们不关心的链接, 与UIWebView的兼容还是要好好考略一下
++ (BOOL)ignoreRequest:(NSURLRequest *)request{
+    NSString *pathExtension = [request.URL.absoluteString pathExtension];
+    //NSArray *blackList = @[@"",@"",@""];
+    if (pathExtension.length > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

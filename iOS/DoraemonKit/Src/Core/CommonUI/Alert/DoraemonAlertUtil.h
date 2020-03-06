@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,6 +24,12 @@ typedef void (^DoraemonAlertCancleActionBlock)(void);
                              text:(NSString *)text
                      okBlock:(DoraemonAlertOKActionBlock)okBlock
                       cancleBlock:(DoraemonAlertCancleActionBlock)cancleBlock;
+
++ (void)handleAlertActionWithVC:(UIViewController *)vc
+                           text:(NSString *)text
+                        okBlock:(DoraemonAlertOKActionBlock)okBlock;
+
+
 
 @end
 

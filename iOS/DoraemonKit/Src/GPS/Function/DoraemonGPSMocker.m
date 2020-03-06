@@ -99,12 +99,33 @@
 }
 
 #pragma mark - CLLocationManagerDelegate
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    if (!self.isMocking) {
-        [self dispatchLocationUpdate:manager locations:locations];
+// 这个过期接口不能删掉，防止应用方实现了这个方法
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+    if (!self.isMocking){
+        [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
+                #pragma clang diagnostic push
+                #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+                [delegate locationManager:manager didUpdateToLocation:newLocation fromLocation:oldLocation];
+                #pragma clang diagnostic pop
+            }
+        }];
     }
 }
+#pragma clang diagnostic pop
 
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    if (!self.isMocking) {
+        [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+            if ([delegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {
+                [delegate locationManager:manager didUpdateLocations:locations];
+            }
+        }];
+    }
+}
+    
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(locationManager:didUpdateHeading:)]) {
@@ -235,13 +256,18 @@ monitoringDidFailForRegion:(nullable CLRegion *)region
     }];
 }
 
-
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 -(void)dispatchLocationUpdate:(CLLocationManager *)manager locations:(NSArray*)locations{
     NSString *key = [NSString stringWithFormat:@"%p_delegate",manager];
     id<CLLocationManagerDelegate> delegate = [_locationMonitor objectForKey:key];
     if ([delegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {
         [delegate locationManager:manager didUpdateLocations:locations];
+    }else if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]){
+        [delegate locationManager:manager didUpdateToLocation:locations.firstObject fromLocation:self.oldLocation];
+        self.oldLocation = locations.firstObject;
     }
 }
+#pragma clang diagnostic pop
 @end
+

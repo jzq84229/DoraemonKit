@@ -1,13 +1,13 @@
 package com.didichuxing.doraemonkit.kit.timecounter;
 
+import android.app.Application;
 import android.os.Looper;
 
-import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 import java.util.List;
 
@@ -28,11 +28,21 @@ public class TimeCounterManager {
     private AppCounter mAppCounter = new AppCounter();
     private ActivityCounter mActivityCounter = new ActivityCounter();
 
-    public void onAppCreateStart() {
+    /**
+     * App 启动
+     *
+     * @param application
+     */
+    public void onAppCreateStart(Application application) {
         mAppCounter.start();
     }
 
-    public void onAppCreateEnd() {
+    /**
+     * App 启动结束
+     *
+     * @param application
+     */
+    public void onAppCreateEnd(Application application) {
         mAppCounter.end();
     }
 
@@ -61,10 +71,12 @@ public class TimeCounterManager {
             return;
         }
         mIsRunning = true;
-        PageIntent pageIntent = new PageIntent(TimeCounterFloatPage.class);
-        pageIntent.tag = PageTag.PAGE_TIME_COUNTER;
-        pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(pageIntent);
+        DokitViewManager.getInstance().detachToolPanel();
+        DokitIntent pageIntent = new DokitIntent(TimeCounterDokitView.class);
+        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(pageIntent);
+
+
     }
 
     public boolean isRunning() {
@@ -77,7 +89,8 @@ public class TimeCounterManager {
         }
         Looper.getMainLooper().setMessageLogging(null);
         mIsRunning = false;
-        FloatPageManager.getInstance().remove(PageTag.PAGE_TIME_COUNTER);
+        DokitViewManager.getInstance().detach(TimeCounterDokitView.class.getSimpleName());
+
     }
 
     public List<CounterInfo> getHistory() {

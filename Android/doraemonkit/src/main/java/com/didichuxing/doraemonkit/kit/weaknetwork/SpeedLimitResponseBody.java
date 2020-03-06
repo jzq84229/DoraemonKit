@@ -13,17 +13,18 @@ import okio.Okio;
 import okio.Source;
 
 /**
- * @author denghaha
- * created 2019-05-09 18:35
+ * Created by xiandanin on 2019-05-09 18:35
  */
 public class SpeedLimitResponseBody extends ResponseBody {
-    private long mSpeedByte;//b/s
+    //b/s
+    private long mSpeedByte;
     private ResponseBody mResponseBody;
     private BufferedSource mBufferedSource;
 
     public SpeedLimitResponseBody(long speed, ResponseBody source) {
         this.mResponseBody = source;
-        this.mSpeedByte = speed * 1024L;//转成字节
+        //转成字节
+        this.mSpeedByte = speed * 1024L;
     }
 
     @Override

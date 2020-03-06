@@ -45,18 +45,13 @@
     return self;
 }
 
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
-}
-
 - (void)show{
     self.hidden = NO;
-    self.frame = CGRectMake(0, 0, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT);
-    if(IS_IPHONE_X_Series){
-        _contentLabel.frame = CGRectMake(0, self.doraemon_height-20, DoraemonScreenWidth, 20);
-    }else{
-        _contentLabel.frame = CGRectMake(0, 0, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT);
+    self.frame = CGRectMake(0, 0, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT + 15);
+    if (IS_IPHONE_X_Series) {
+        _contentLabel.frame = CGRectMake(0, self.doraemon_height-25, DoraemonScreenWidth, 20);
+    } else {
+        _contentLabel.frame = CGRectMake(0, self.doraemon_height-IPHONE_STATUSBAR_HEIGHT, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT);
     }
 }
 

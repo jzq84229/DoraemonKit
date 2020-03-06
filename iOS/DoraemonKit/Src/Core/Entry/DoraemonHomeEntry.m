@@ -7,7 +7,6 @@
 
 #import "DoraemonHomeEntry.h"
 #import "UIView+Doraemon.h"
-#import "DoraemonUtil.h"
 #import "UIColor+Doraemon.h"
 #import "DoraemonManager.h"
 #import "DoraemonPluginProtocol.h"
@@ -18,6 +17,7 @@
 #import "DoraemonHomeFootCell.h"
 #import "DoraemonHomeCloseCell.h"
 #import "UIViewController+Doraemon.h"
+#import "DoraemonBuriedPointManager.h"
 
 static NSString *DoraemonHomeCellID = @"DoraemonHomeCellID";
 static NSString *DoraemonHomeHeadCellID = @"DoraemonHomeHeadCellID";
@@ -37,7 +37,15 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     if (!_collectionView) {
         UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:fl];
-        _collectionView.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            _collectionView.backgroundColor = [UIColor systemBackgroundColor];
+        } else {
+#endif
+            _collectionView.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
@@ -52,22 +60,26 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < _dataArray.count) {
-        return CGSizeMake(80, 64);
+        return CGSizeMake(kDoraemonSizeFrom750_Landscape(160), kDoraemonSizeFrom750_Landscape(128));
     } else {
-        return CGSizeMake(DoraemonScreenHeight, 60);
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(100));
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section < _dataArray.count) {
-        return CGSizeMake(DoraemonScreenHeight, 44);
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(88));
     } else {
-        return CGSizeMake(DoraemonScreenHeight, 0);
+        return CGSizeMake(DoraemonScreenWidth, 0);
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    return CGSizeMake(DoraemonScreenHeight, 20);
+    if (section < _dataArray.count) {
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(24));
+    } else {
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(80));
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
@@ -106,24 +118,63 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *view = nil;
+    UICollectionReusableView *view;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         DoraemonHomeHeadCell *head = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DoraemonHomeHeadCellID  forIndexPath:indexPath];
-        head.title.text = @"";
+        [head renderUIWithTitle:nil];
         NSInteger section = indexPath.section;
         if (section < _dataArray.count) {
             NSDictionary *dict = _dataArray[section];
-            head.title.text = dict[@"moduleName"];
+            [head renderUIWithTitle:dict[@"moduleName"]];
         }
         
         view = head;
     } else if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
         DoraemonHomeFootCell *foot = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DoraemonHomeFootCellID forIndexPath:indexPath];
-        foot.backgroundColor = [UIColor doraemon_colorWithString:@"#F4F5F6"];
+        UIColor *dyColor;
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            __weak typeof(self) weakSelf = self;
+            dyColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                    return [UIColor doraemon_colorWithString:@"#F4F5F6"];
+                } else {
+                    if (indexPath.section >= weakSelf.dataArray.count) {
+                        return [UIColor systemBackgroundColor];
+                    } else {
+                        return [UIColor doraemon_colorWithString:@"#353537"];
+                    }
+                }
+            }];
+        } else {
+#endif
+            dyColor = [UIColor doraemon_colorWithString:@"#F4F5F6"];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
+        if (indexPath.section >= self.dataArray.count) {
+            NSString *str = DoraemonLocalizedString(@"当前版本");
+            NSString *last = [NSString stringWithFormat:@"%@：V%@", str, DoKitVersion];
+            foot.title.text = last;
+            foot.title.textColor = [UIColor doraemon_colorWithString:@"#999999"];
+            foot.title.textAlignment = NSTextAlignmentCenter;
+            foot.title.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)]; // kDoraemonSizeFrom750
+        } else {
+            foot.title.text = nil;
+        }
+        foot.backgroundColor = dyColor;
         view = foot;
+    }else{
+        view = [[UICollectionReusableView alloc] init];
     }
     
     return view;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    if (section < _dataArray.count)
+        return UIEdgeInsetsMake(0, kDoraemonSizeFrom750_Landscape(24), kDoraemonSizeFrom750_Landscape(24), kDoraemonSizeFrom750_Landscape(24));//分别为上、左、下、右
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -133,8 +184,8 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
         NSArray *pluginArray = dict[@"pluginArray"];
         NSDictionary *itemData = pluginArray[indexPath.row];
         NSString *pluginName = itemData[@"pluginName"];
-        
         if(pluginName){
+            DoKitBP(itemData[@"buriedPoint"])
             Class pluginClass = NSClassFromString(pluginName);
             id<DoraemonPluginProtocol> plugin = [[pluginClass alloc] init];
             if ([plugin respondsToSelector:@selector(pluginDidLoad)]) {
@@ -154,7 +205,16 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor tertiarySystemBackgroundColor];
+    } else {
+#endif
+        self.view.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
+    
     _dataArray = [DoraemonManager shareInstance].dataArray;
     [self.view addSubview:self.collectionView];
 }
@@ -164,33 +224,10 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     self.navigationController.navigationBarHidden = YES;
 }
 
-- (void)layoutCollectionView {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    switch (orientation) {
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            CGSize size = self.view.doraemon_size;
-            if (size.width > size.height) {
-                UIEdgeInsets safeAreaInsets = [self safeAreaInset];
-                CGRect frame = self.view.frame;
-                CGFloat width = self.view.doraemon_width - safeAreaInsets.left - safeAreaInsets.right;
-                frame.origin.x = safeAreaInsets.left;
-                frame.size.width = width;
-                self.collectionView.frame = frame;
-            }
-        }
-            break;
-        default:
-            self.collectionView.frame = self.view.frame;
-            break;
-    }
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
-    [self layoutCollectionView];
+    self.collectionView.frame = [self fullscreen];
 }
 
 @end

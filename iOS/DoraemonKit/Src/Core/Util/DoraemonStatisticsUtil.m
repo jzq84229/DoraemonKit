@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonStatisticsUtil.h"
+#import "DoraemonDefine.h"
 
 @implementation DoraemonStatisticsUtil
 
@@ -24,9 +25,9 @@
     }
     NSURL *url = [NSURL URLWithString:@"https://doraemon.xiaojukeji.com/uploadAppData"];
     
-    NSString *appId = [[NSBundle mainBundle] bundleIdentifier];;
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-    NSString *doKitVersion = @"1.2.3";
+    NSString *appId = [DoraemonAppInfoUtil bundleIdentifier];
+    NSString *appName = [DoraemonAppInfoUtil appName];
+    NSString *doKitVersion = DoKitVersion;
     NSString *type = @"iOS";
     NSString *from = @"1";
     

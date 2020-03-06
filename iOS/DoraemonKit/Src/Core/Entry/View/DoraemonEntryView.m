@@ -8,17 +8,18 @@
 
 #import "DoraemonEntryView.h"
 #import "DoraemonDefine.h"
-#import "DoraemonUtil.h"
 #import "UIView+Doraemon.h"
 #import "UIImage+Doraemon.h"
 #import "DoraemonDefine.h"
 #import "DoraemonHomeWindow.h"
 #import "DoraemonStatusBarViewController.h"
+#import "DoraemonBuriedPointManager.h"
 
 @interface DoraemonEntryView()
 
 @property (nonatomic, strong) UIButton *entryBtn;
 @property (nonatomic, assign) CGFloat kEntryViewSize;
+@property (nonatomic) CGPoint startingPosition;
 
 @end
 
@@ -28,7 +29,15 @@
     if (!_entryBtn) {
         _entryBtn = [[UIButton alloc] initWithFrame:self.bounds];
         _entryBtn.backgroundColor = [UIColor clearColor];
-        [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
+        UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_logo"];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                image = [UIImage doraemon_imageNamed:@"doraemon_logo_dark"];
+            }
+        }
+#endif
+        [_entryBtn setImage:image forState:UIControlStateNormal];
         _entryBtn.layer.cornerRadius = 20.;
         [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -36,7 +45,24 @@
     return _entryBtn;
 }
 
-- (instancetype)init{
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    // trait发生了改变
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                [self.entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo_dark"] forState:UIControlStateNormal];
+            } else {
+                [self.entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
+            }
+        }
+    }
+#endif
+}
+
+- (instancetype)initWithStartPoint:(CGPoint)startingPosition{
+    self.startingPosition = startingPosition;
     _kEntryViewSize = 58;
     CGFloat x = self.startingPosition.x;
     CGFloat y = self.startingPosition.y;
@@ -50,7 +76,7 @@
     }
     
     self = [super initWithFrame:CGRectMake(x, y, _kEntryViewSize, _kEntryViewSize)];
-    if (self) { 
+    if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
         self.layer.masksToBounds = YES;
@@ -73,6 +99,10 @@
     return self;
 }
 
+- (void)show{
+    self.hidden = NO;
+}
+
 - (void)showClose:(NSNotification *)notification{
     [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(showClose:) forControlEvents:UIControlEventTouchUpInside];
@@ -83,13 +113,6 @@
     [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(closePluginClick:) forControlEvents:UIControlEventTouchUpInside];
     [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
-}
-
-//不能让该View成为keyWindow，每一次它要成为keyWindow的时候，都要将appDelegate的window指为keyWindow
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
 }
 
 /**
@@ -98,11 +121,10 @@
 - (void)entryClick:(UIButton *)btn{
     if ([DoraemonHomeWindow shareInstance].hidden) {
         [[DoraemonHomeWindow shareInstance] show];
+        DoKitBP(@"dokit_sdk_home_ck_entry")
     }else{
         [[DoraemonHomeWindow shareInstance] hide];
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
 }
 
 - (void)pan:(UIPanGestureRecognizer *)sender{

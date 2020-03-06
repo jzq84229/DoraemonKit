@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A5399852349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */; };
+		0A5399882349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399872349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m */; };
+		0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */; };
+		0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */; };
+		0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */; };
 		B65C2263AF96F94C50A222DF /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */; };
 		DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */; };
 		DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C6F391FDEBE3800F43588 /* TestPlugin.m */; };
@@ -38,6 +43,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A5399832349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakViewController.h; sourceTree = "<group>"; };
+		0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMemoryLeakViewController.m; sourceTree = "<group>"; };
+		0A5399862349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakModel.h; sourceTree = "<group>"; };
+		0A5399872349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMemoryLeakModel.m; sourceTree = "<group>"; };
+		0A5399892349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakView.h; sourceTree = "<group>"; };
+		0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMemoryLeakView.m; sourceTree = "<group>"; };
+		0AA262DF240F8AC400BF144F /* DoraemonDemoBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoBaseViewController.h; sourceTree = "<group>"; };
+		0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoBaseViewController.m; sourceTree = "<group>"; };
+		0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetTableViewCell.m; sourceTree = "<group>"; };
+		0AFBC55123BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoNetTableViewCell.h; sourceTree = "<group>"; };
 		29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DoraemonKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0C6F321FDEBC2E00F43588 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA0C6F381FDEBE3800F43588 /* TestPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestPlugin.h; sourceTree = "<group>"; };
@@ -104,6 +119,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A5399822349ECF000C47CB3 /* MemoryLeak */ = {
+			isa = PBXGroup;
+			children = (
+				0A5399832349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.h */,
+				0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */,
+				0A5399862349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.h */,
+				0A5399872349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m */,
+				0A5399892349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.h */,
+				0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */,
+			);
+			path = MemoryLeak;
+			sourceTree = "<group>";
+		};
+		0AA262DE240F8A7700BF144F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0AA262DF240F8AC400BF144F /* DoraemonDemoBaseViewController.h */,
+				0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		0AFBC54F23BAE6F80099A8BD /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				0AFBC55123BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.h */,
+				0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		6BF226158409D1338AF520EC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +260,8 @@
 		DAFE050521BD4A4C00F97A59 /* DemoVC */ = {
 			isa = PBXGroup;
 			children = (
+				0AA262DE240F8A7700BF144F /* Base */,
+				0A5399822349ECF000C47CB3 /* MemoryLeak */,
 				DAFE050621BD4A4C00F97A59 /* UI */,
 				DAFE050921BD4A4C00F97A59 /* Home */,
 				DAFE050C21BD4A4C00F97A59 /* Net */,
@@ -230,8 +278,8 @@
 		DAFE050621BD4A4C00F97A59 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				DAFE050721BD4A4C00F97A59 /* DoraemonDemoUIViewController.m */,
 				DAFE050821BD4A4C00F97A59 /* DoraemonDemoUIViewController.h */,
+				DAFE050721BD4A4C00F97A59 /* DoraemonDemoUIViewController.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -239,8 +287,8 @@
 		DAFE050921BD4A4C00F97A59 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				DAFE050A21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.m */,
 				DAFE050B21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.h */,
+				DAFE050A21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -248,6 +296,7 @@
 		DAFE050C21BD4A4C00F97A59 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				0AFBC54F23BAE6F80099A8BD /* Cell */,
 				DAC3FA7322B8DD5C00871E5C /* Image */,
 				DABBE3AF21D3A9F40070518E /* WebView */,
 				DAFE050D21BD4A4C00F97A59 /* DoraemonDemoNetViewController.h */,
@@ -269,8 +318,8 @@
 			isa = PBXGroup;
 			children = (
 				DAFE051321BD4A4C00F97A59 /* DoraemonDemoCrashViewController.h */,
-				DAFE051421BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.h */,
 				DAFE051521BD4A4C00F97A59 /* DoraemonDemoCrashViewController.m */,
+				DAFE051421BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.h */,
 				DAFE051621BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.m */,
 			);
 			path = Crash;
@@ -297,9 +346,9 @@
 		DAFE051D21BD4A4C00F97A59 /* MockGPS */ = {
 			isa = PBXGroup;
 			children = (
+				DAFE052021BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.h */,
 				DAFE051E21BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.m */,
 				DAFE051F21BD4A4C00F97A59 /* DoraemonDemoMockGPSViewController.h */,
-				DAFE052021BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.h */,
 				DAFE052121BD4A4C00F97A59 /* DoraemonDemoMockGPSViewController.m */,
 			);
 			path = MockGPS;
@@ -308,8 +357,8 @@
 		DAFE052221BD4A4C00F97A59 /* Performance */ = {
 			isa = PBXGroup;
 			children = (
-				DAFE052321BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.m */,
 				DAFE052421BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.h */,
+				DAFE052321BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.m */,
 			);
 			path = Performance;
 			sourceTree = "<group>";
@@ -326,7 +375,6 @@
 				DAC8A8741FDE2C3B00F03E6F /* Frameworks */,
 				DAC8A8751FDE2C3B00F03E6F /* Resources */,
 				4338E62332869AF074F6B38C /* [CP] Copy Pods Resources */,
-				79B249EB70E5D465A686C19B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -396,21 +444,11 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/DoraemonKit/DoraemonKit.bundle",
-				"${PODS_ROOT}/WeexSDK/pre-build/native-bundle-main.js",
-				"${PODS_ROOT}/WeexSDK/pre-build/weex-main-jsfm.js",
-				"${PODS_ROOT}/WeexSDK/pre-build/weex-polyfill.js",
-				"${PODS_ROOT}/WeexSDK/pre-build/weex-rax-api.js",
-				"${PODS_ROOT}/WeexSDK/ios/sdk/WeexSDK/Resources/wx_load_error@3x.png",
 				"${PODS_ROOT}/YYDebugDatabase/DebugDatabase/Web.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DoraemonKit.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/native-bundle-main.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/weex-main-jsfm.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/weex-polyfill.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/weex-rax-api.js",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/wx_load_error@3x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Web.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,24 +474,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		79B249EB70E5D465A686C19B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh",
-				"${PODS_ROOT}/../../DoraemonKit/Framework/DoraemonLoadAnalyze.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoraemonLoadAnalyze.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -471,7 +491,11 @@
 				DAFE052921BD4A4D00F97A59 /* DoraemonDemoCrashViewController.m in Sources */,
 				DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */,
 				DABBE3B221D3AA260070518E /* DoraemonUIWebViewViewController.m in Sources */,
+				0A5399852349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m in Sources */,
+				0A5399882349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m in Sources */,
 				DAFE052C21BD4A4D00F97A59 /* DoraemonDemoCommonViewController.m in Sources */,
+				0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */,
+				0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */,
 				DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */,
 				DAC3FA7622B8DD7400871E5C /* DoraemonDemoImageViewController.m in Sources */,
 				DAC3FA7922B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m in Sources */,
@@ -479,6 +503,7 @@
 				DAFE052821BD4A4D00F97A59 /* DoraemonDemoLoggerViewController.m in Sources */,
 				DAFE052E21BD4A4D00F97A59 /* DoraemonDemoMockGPSViewController.m in Sources */,
 				DAFE052F21BD4A4D00F97A59 /* DoraemonDemoPerformanceViewController.m in Sources */,
+				0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */,
 				DAFE052521BD4A4D00F97A59 /* DoraemonDemoUIViewController.m in Sources */,
 				DAD46BDA1FE6B7AF00E3E7BC /* StartPlugin.m in Sources */,
 			);
@@ -532,7 +557,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPILER_INDEX_STORE_ENABLE = NO;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -613,15 +638,16 @@
 			baseConfigurationReference = DB18BA61EBA817FD46B5C41B /* Pods-DoraemonKitDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 2M632FEG3H;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";
 				INFOPLIST_FILE = DoraemonKitDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yixiang.DoraemonKitDemoAAA;
+				PRODUCT_BUNDLE_IDENTIFIER = yixiang.DoraemonKitDemoYIXIANG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -633,7 +659,7 @@
 			baseConfigurationReference = DBA563858BAABEC9BC885911 /* Pods-DoraemonKitDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2M632FEG3H;
 				ENABLE_BITCODE = YES;
@@ -641,7 +667,7 @@
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";
 				INFOPLIST_FILE = DoraemonKitDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yixiang.DoraemonKitDemoAAA;
+				PRODUCT_BUNDLE_IDENTIFIER = yixiang.DoraemonKitDemoYIXIANG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
